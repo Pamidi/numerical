@@ -37,9 +37,11 @@ public class numerical {
 	
 		Equation eq = new Equation(deg);
 		eq.add_constants(cons);
+		eq.display();
+		eq.set_a();
+		out.println(eq.get_a());
 		out.println(find_root(eq));
-	
-   }
+	}
 }
 
 class Equation{
@@ -52,7 +54,6 @@ class Equation{
 	{
 		degree=d;
 		l=new Float[degree+1];
-		set_a();
 	}
 	
 	public void add_constants(Float[] c)
@@ -61,17 +62,21 @@ class Equation{
 			l[i]=c[i];
 	}
 	
+	public void display()
+	{
+		for(int i=0;i<=degree;i++)
+			System.out.println(l[i]);
+	}
+	
    public float calculate_function_value(float val)
 	{
-		float res=0,temp=0;
+		float res=0;
 		int k=degree;
 		
-		while(k-->=0)
+		while(k>=0)
 		{
-		    res+=temp;
-		    temp=l[degree-k];
-			for(int i=k;i>0;i--)
-		      temp*=val;
+			res+=l[k]*Math.pow(val,k);
+			k--;
 		}
 		
 		return res;
@@ -80,17 +85,22 @@ class Equation{
    public void set_a()
 	{
 		Random randomGenerator= new Random();
-		  float a1=randomGenerator.nextFloat();
-		  float b1=randomGenerator.nextFloat();
-		  
-		  if((calculate_function_value(a1)*calculate_function_value(b1))<0)
-		  {
-			  a=a1;
-		      b=b1;
-		  }
- 
-		  else
-		    	set_a();
-	}
-	
+	    
+	    while(true)
+		{
+	    	float a1=randomGenerator.nextFloat();
+		    float b1=randomGenerator.nextFloat();
+	        if((calculate_function_value(a1)*calculate_function_value(b1))<0)
+		     {
+			    a=a1;
+		        b=b1;
+		        return;
+		     }
+        }
+	 }
+   
+   public float get_a()
+   {
+	   return a;
+   }
 }
