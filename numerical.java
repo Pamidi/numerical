@@ -27,7 +27,7 @@ public class numerical {
 	public static void main(String[] args) throws IOException {
 		
 		BufferedReader o=new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter out=new PrintWriter(System.out);
+
 		
 		int deg=Integer.parseInt(o.readLine());
 		Float[] cons=new Float[deg+1];
@@ -39,8 +39,8 @@ public class numerical {
 		eq.add_constants(cons);
 		eq.display();
 		eq.set_a();
-		out.println(eq.get_a());
-		out.println(find_root(eq));
+		System.out.println(eq.get_a());
+		System.out.println(find_root(eq));
 	}
 }
 
