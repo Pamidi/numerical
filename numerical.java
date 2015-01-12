@@ -3,7 +3,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class numerical {
@@ -13,11 +12,10 @@ public class numerical {
 		float c= (a+b)/2;
 		if(eq.calculate_function_value(c) <= 0.001) return c;
 		
-		else 
-			if((eq.calculate_function_value(c)*eq.calulate_function_value(a))<0)
+		else if((eq.calculate_function_value(c)*eq.calculate_function_value(a))<0)
 				return calculate_root_value(a,c,eq);
 			
-			else return calculate_root_value(c,b,eq);
+		else return calculate_root_value(c,b,eq);
 	}
 
 	public static float find_root(Equation eq)
@@ -32,45 +30,47 @@ public class numerical {
 		PrintWriter out=new PrintWriter(System.out);
 		
 		int deg=Integer.parseInt(o.readLine());
-		Float[] cons=new Float[deg];
+		Float[] cons=new Float[deg+1];
 		
-		for(int i=0;i<deg;i++)
+		for(int i=0;i<=deg;i++)
 			cons[i]=Float.parseFloat(o.readLine());
-		
+	
 		Equation eq = new Equation(deg);
 		eq.add_constants(cons);
-		
 		out.println(find_root(eq));
+	
    }
 }
 
 class Equation{
 	
 	int degree;
-	Float[] l=new Float[degree];
-	float a,b;
+	Float[] l;;
+    float a,b;
 	
 	Equation(int d)
 	{
 		degree=d;
+		l=new Float[degree+1];
+		set_a();
 	}
 	
 	public void add_constants(Float[] c)
 	{
-		for(int i=0;i<degree;i++)
+		for(int i=0;i<=degree;i++)
 			l[i]=c[i];
 	}
 	
-   public float calulate_function_value(float val)
+   public float calculate_function_value(float val)
 	{
 		float res=0,temp=0;
 		int k=degree;
 		
-		while(k>=0)
+		while(k-->=0)
 		{
 		    res+=temp;
 		    temp=l[degree-k];
-			for(int i=k;i>0;i++)
+			for(int i=k;i>0;i--)
 		      temp*=val;
 		}
 		
