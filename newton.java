@@ -12,7 +12,7 @@ public class newton implements method{
     public double solve(polynomial p)
     {
     	 if(p.cal_func_val(0)==0) return 0;
-		 double x1= 3-((p.cal_func_val(3))/6),x0=3;
+		 double x0=3,x1= x0-((p.cal_func_val(x0))/(2*x0));
 		 steps++;
 	
    		 while(true)
@@ -23,7 +23,7 @@ public class newton implements method{
 			  return x1;
 		   x0=x1;
 		  
-		   x1=3-((p.cal_func_val(3))/6);
+		   x1=x0-((p.cal_func_val(x0))/(2*x0));
 		   steps++;
 		 }
     }
