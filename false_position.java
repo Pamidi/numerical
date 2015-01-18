@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class false_position implements method{
   
-	double a,b;
+	double a,b,steps;
 	
 	public boolean set_a(polynomial p)
 	{
@@ -16,7 +16,7 @@ public class false_position implements method{
 		{
 	    	 b1=randomGenerator.nextInt(100);
 		     a1=randomGenerator.nextInt(100)-100;
-		    System.out.println(Double.toString(a1)+" " +Double.toString(b1));
+		    //System.out.println(Double.toString(a1)+" " +Double.toString(b1));
 	        if((p.cal_func_val(a1)*p.cal_func_val(b1))<=0)
 		     {
 			    a=a1;
@@ -30,7 +30,11 @@ public class false_position implements method{
 	
 	  public void solve_polynomial(polynomial p)
 	  {
-	   if(set_a(p)) System.out.println("root is" + solve(p));
+	   if(set_a(p)) 
+	   {
+		   System.out.println("root is" + solve(p));
+		   System.out.println("steps:"+" "+steps);
+	   }
 	   else System.out.println("no root found");
 	  }
 	  
@@ -40,7 +44,7 @@ public class false_position implements method{
 			 if(p.cal_func_val(a)==0) return a;
 		     if(p.cal_func_val(b)==0) return b;
 			 double cur= ((a*p.cal_func_val(b))-(b*p.cal_func_val(a)))/(p.cal_func_val(b)-p.cal_func_val(a)),prev=0;
-		
+		     steps++;
 	   		 while(true)
 			 {
 			   if(p.cal_func_val(cur)==0) return cur;
@@ -54,6 +58,7 @@ public class false_position implements method{
 			   else a=cur;
 			  
 			   cur=((a*p.cal_func_val(b))-(b*p.cal_func_val(a)))/(p.cal_func_val(b)-p.cal_func_val(a));
+			   steps++;
 			 }
 	    }
 	

@@ -2,15 +2,18 @@ package test;
 
 public class newton implements method{
 	
-    public void solve_polynomial(polynomial p)
+    double steps;
+	public void solve_polynomial(polynomial p)
     {
     	System.out.println("root is" + solve(p));
+    	System.out.println("steps: "+ steps);
     }
     
     public double solve(polynomial p)
     {
     	 if(p.cal_func_val(0)==0) return 0;
 		 double x1= 3-((p.cal_func_val(3))/6),x0=3;
+		 steps++;
 	
    		 while(true)
 		 {
@@ -21,6 +24,7 @@ public class newton implements method{
 		   x0=x1;
 		  
 		   x1=3-((p.cal_func_val(3))/6);
+		   steps++;
 		 }
     }
 }

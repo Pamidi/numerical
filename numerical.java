@@ -1,62 +1,72 @@
 package test;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Random;
 
 public class numerical {
 	
-	public static float calculate_root_value(float a,float b,Equation eq)
+	public static double calculate_root_value(Equation eq)
 	{
-		float c= (a+b)/2;
-		if(eq.calculate_function_value(c) <= 0.001) return c;
+	    if(eq.calculate_function_value(0)==0) return 0;
+		if(eq.calculate_function_value(eq.a)==0) return eq.a;
+	    if(eq.calculate_function_value(eq.b)==0) return eq.b;
+		double cur= (eq.a+eq.b)/2,prev=0;
+	
+		while(true)
+		{
+		  
+		  if(eq.calculate_function_value(cur)==0) return cur;
+		  
+		  if((eq.calculate_function_value(cur)<=0.001) && ((cur-prev)/cur)<=0.001)
+			  return cur;
+		  prev=cur;
+		  
+		  if((eq.calculate_function_value(cur)*eq.calculate_function_value(eq.a))<0)
+			  eq.b=cur;
+		  else eq.a=cur;
+		  
+		  cur=(eq.a+eq.b)/2;
+		  eq.steps++;
+		}
 		
-		else if((eq.calculate_function_value(c)*eq.calculate_function_value(a))<0)
-				return calculate_root_value(a,c,eq);
-			
-		else return calculate_root_value(c,b,eq);
 	}
-
-	public static float find_root(Equation eq)
+	
+	public static double find_root(Equation eq)
 	{
-		return calculate_root_value(eq.a,eq.b,eq);
+		return calculate_root_value(eq);
 	}
 	
 	
 	public static void main(String[] args) throws IOException {
 		
-		BufferedReader o=new BufferedReader(new InputStreamReader(System.in));
-
+     	int deg=1;
+		double[] cons={1,0};
 		
-		int deg=Integer.parseInt(o.readLine());
-		Float[] cons=new Float[deg+1];
-		
-		for(int i=0;i<=deg;i++)
-			cons[i]=Float.parseFloat(o.readLine());
-	
 		Equation eq = new Equation(deg);
 		eq.add_constants(cons);
-		eq.display();
-		eq.set_a();
-		System.out.println(eq.get_a());
-		System.out.println(find_root(eq));
+		
+		if(eq.set_a())
+		  {
+			System.out.println("the interval is"+eq.a+"and"+eq.b);
+			System.out.println(find_root(eq));
+		  }
+        else
+		  System.out.println("couldnot find a root");
 	}
 }
 
 class Equation{
 	
 	int degree;
-	Float[] l;;
-    float a,b;
+	double[] l;
+    double a,b,steps;
 	
 	Equation(int d)
 	{
 		degree=d;
-		l=new Float[degree+1];
+		l=new double[degree+1];
 	}
 	
-	public void add_constants(Float[] c)
+	public void add_constants(double[] c)
 	{
 		for(int i=0;i<=degree;i++)
 			l[i]=c[i];
@@ -68,9 +78,9 @@ class Equation{
 			System.out.println(l[i]);
 	}
 	
-   public float calculate_function_value(float val)
+   public double calculate_function_value(double val)
 	{
-		float res=0;
+		double res=0;
 		int k=degree;
 		
 		while(k>=0)
@@ -82,25 +92,25 @@ class Equation{
 		return res;
 	}
    
-   public void set_a()
+   public boolean set_a()
 	{
 		Random randomGenerator= new Random();
 	    
-	    while(true)
+	    double a1,b1;
+		int count=0;
+		while(true)
 		{
-	    	float a1=randomGenerator.nextFloat();
-		    float b1=randomGenerator.nextFloat();
-	        if((calculate_function_value(a1)*calculate_function_value(b1))<0)
+	    	 b1=randomGenerator.nextInt(100);
+		     a1=randomGenerator.nextInt(100)-100;
+		    System.out.println(Double.toString(a1)+" " +Double.toString(b1));
+	        if((calculate_function_value(a1)*calculate_function_value(b1))<=0)
 		     {
 			    a=a1;
 		        b=b1;
-		        return;
+		        return true;
 		     }
+            count++;
+            if(count>1000) return false;
         }
 	 }
-   
-   public float get_a()
-   {
-	   return a;
-   }
-}
+ }

@@ -8,10 +8,11 @@ public class problem {
 	problem(polynomial k,method h){
 		p=k;
 		m=h;
+		solve();
 	}
    
 	public void solve()
 	{
-	   m.solve_polynomial(p);
+		m.solve_polynomial(p);
 	}
 } 
